@@ -18,6 +18,7 @@
 package com.kodgemisi.parabot.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.Set;
@@ -29,15 +30,15 @@ import java.util.Set;
 public class Account extends BaseModel {
 
     private String name;
-    private String desc;
+    private String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> users;
 
     @OneToMany(mappedBy = "ownerAccount")
     private Set<Agent> agents;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     private Set<MonetaryTransaction> transactions;
 
     public Set<Agent> getAgents() {
@@ -56,12 +57,12 @@ public class Account extends BaseModel {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Set<User> getUsers() {
