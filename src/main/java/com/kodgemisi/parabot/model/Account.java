@@ -35,7 +35,7 @@ public class Account extends BaseModel {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> users;
 
-    @OneToMany(mappedBy = "ownerAccount")
+    @OneToMany(mappedBy = "ownerAccount", fetch = FetchType.EAGER)
     private Set<Agent> agents;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)

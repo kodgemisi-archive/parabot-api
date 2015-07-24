@@ -24,21 +24,15 @@ import com.kodgemisi.parabot.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by destan on 23.07.2015.
  */
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/accounts")
 public class AccountController {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
@@ -49,7 +43,7 @@ public class AccountController {
     private UserService userService;
 
     @ResponseBody
-    @RequestMapping("/create")
+    @RequestMapping(method = RequestMethod.POST)
     public Account createAccount() {
         Map<String,String> result = new HashMap<String, String>();
         result.put("here", "zaa");
@@ -69,7 +63,13 @@ public class AccountController {
         Account acc = accountService.getById(id);
         Set<User> users = new HashSet<>();
         users.add(userService.getById(1L));
-        acc.setAgents(null);
+        acc.setUsers(users);
         return acc;
+    }
+
+    @ResponseBody
+    @RequestMapping
+    public List<Account> getAllAccounts() {
+        return accountService.getAll();
     }
 }

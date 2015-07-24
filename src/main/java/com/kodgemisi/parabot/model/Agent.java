@@ -17,10 +17,7 @@
 
 package com.kodgemisi.parabot.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by destan on 23.07.2015.
@@ -32,7 +29,7 @@ public abstract class Agent extends BaseModel {
     private String description;
     private String color;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Account ownerAccount;
 
     public String getName() {
