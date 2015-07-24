@@ -29,7 +29,7 @@ import javax.persistence.ManyToOne;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Agent extends BaseModel {
     private String name;
-    private String desc;
+    private String description;
     private String color;
 
     @ManyToOne
@@ -43,12 +43,12 @@ public abstract class Agent extends BaseModel {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getColor() {

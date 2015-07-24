@@ -24,5 +24,5 @@ import org.springframework.stereotype.Repository;
  * Created by destan on 23.07.2015.
  */
 @Repository
-public class UserDao extends GenericDao<User> {
+public interface UserDao extends GenericDao<User> {
 }

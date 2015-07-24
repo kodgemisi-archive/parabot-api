@@ -30,90 +30,17 @@ import java.util.List;
 /**
  * Created by destan on 23.07.2015.
  */
-public class GenericDao <T extends BaseModel> {
+public interface GenericDao<T extends BaseModel> {
+    public Long create(final T t);
 
+    public T getById(final Long id);
 
-    @Autowired
-    protected SessionFactory sessionFactory;
+    public Long update(final T t);
 
-    final protected Class<T> type;
+    public Long delete(final T t);
 
-    /**
-     * Sets generic type class for this Dao. By setting this we will be able to
-     * call methods that use Criteria without explicit class parameters. <br>
-     * <br>
-     * Note that this method is not optional! You have to use this.
-     *
-     * <br>
-     * <br>
-     *
-     * <strong>If not used:</strong> <br>
-     * <code>
-     * 	session.createCriteria(clazz); // clazz should come as method parameter
-     * </code>
-     * <br>
-     * <br>
-     *
-     * <strong>If used:</strong> <br>
-     * <code>
-     * 	session.createCriteria(this.type); // no need for clazz parameter in method
-     * </code>
-     */
-    @SuppressWarnings("unchecked")
-    public GenericDao() {
-        this.type = (Class<T>) ((ParameterizedType) getClass()
-                .getGenericSuperclass()).getActualTypeArguments()[0];
-    }
+    public List<T> getAll();
 
-    public Long create(final T t) {
-        final Session session = sessionFactory.getCurrentSession();
+    public void hardDelete(final T t);
 
-        final Calendar now = Calendar.getInstance();
-        t.setUpdateDate(now);
-
-        return (Long) session.save(t);
-    }
-
-    @SuppressWarnings("unchecked")
-    public T getById(final Long id) {
-
-        final Session session = sessionFactory.getCurrentSession();
-
-        return (T) session.get(type, id);
-    }
-
-    public Long update(final T t) {
-
-        final Session session = sessionFactory.getCurrentSession();
-
-        final Calendar now = Calendar.getInstance();
-        t.setUpdateDate(now);
-
-        return (Long) session.merge(t);
-    }
-
-    public Long delete(final T t) {
-
-        final Session session = sessionFactory.getCurrentSession();
-
-        t.setDeleted(true);
-
-        return (Long) session.merge(t);
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<T> getAll() {
-
-        final Session session = sessionFactory.getCurrentSession();
-        final Criteria criteria = session.createCriteria(type);
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-
-        return criteria.list();
-    }
-
-    public void hardDelete(final T t) {
-
-        final Session session = sessionFactory.getCurrentSession();
-        session.delete(t);
-    }
 }

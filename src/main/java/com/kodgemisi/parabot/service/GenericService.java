@@ -17,7 +17,7 @@
 
 package com.kodgemisi.parabot.service;
 
-import com.kodgemisi.parabot.dal.GenericDao;
+import com.kodgemisi.parabot.dal.GenericDaoImpl;
 import com.kodgemisi.parabot.model.BaseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ public abstract class GenericService<T extends BaseModel> implements Serializabl
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	protected GenericDao<T> genericDao;
+	protected GenericDaoImpl<T> genericDao;
 
 	public Long create(final T t) {
 

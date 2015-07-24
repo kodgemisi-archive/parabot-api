@@ -24,6 +24,6 @@ import org.springframework.stereotype.Repository;
  * Created by destan on 23.07.2015.
  */
 @Repository
-public class AccountDao extends GenericDao<Account> {
+public interface AccountDao extends GenericDao<Account> {
 
 }
