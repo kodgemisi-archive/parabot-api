@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Created by destan on 23.07.2015.
  */
-public class GenericDaoImpl<T extends BaseModel> implements  GenericDao<T> {
+public class GenericDaoImpl<T extends BaseModel> implements GenericDao<T> {
 
 
     @Autowired
@@ -92,13 +92,13 @@ public class GenericDaoImpl<T extends BaseModel> implements  GenericDao<T> {
         return (Long) session.merge(t);
     }
 
-    public Long delete(final T t) {
+    public void delete(final T t) {
 
         final Session session = sessionFactory.getCurrentSession();
 
         t.setDeleted(true);
 
-        return (Long) session.merge(t);
+        session.merge(t);
     }
 
     @SuppressWarnings("unchecked")
@@ -115,5 +115,11 @@ public class GenericDaoImpl<T extends BaseModel> implements  GenericDao<T> {
 
         final Session session = sessionFactory.getCurrentSession();
         session.delete(t);
+    }
+
+    @Override
+    public void delete(Long id, Class clazz) {
+        final Session session = sessionFactory.getCurrentSession();
+        this.delete((T)session.load(clazz, id));
     }
 }

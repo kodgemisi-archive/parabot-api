@@ -28,27 +28,12 @@ import org.springframework.web.bind.annotation.*;
  * Created by destan on 23.07.2015.
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/users")
+public class UserController extends GenericCrudController<User> {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
 
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public User createUser() {
-        User u = new User();
-        u.setUsername("abc");
-        userService.create(u);
-        return u;
-    }
 
-    @ResponseBody
-    @RequestMapping("/{id}")
-    public User seeUser(@PathVariable("id") Long id) {
-        User u = userService.getById(id);
-        u.setAccounts(null);
-        return u;
-    }
 }

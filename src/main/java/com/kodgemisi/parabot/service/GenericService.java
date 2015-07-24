@@ -60,13 +60,22 @@ public abstract class GenericService<T extends BaseModel> implements Serializabl
 		return genericDao.update(t);
 	}
 
-	public Long delete(final T t) {
+	public void delete(final T t) {
 
 		if (t == null) {
 			throw new RuntimeException("Model cannot be null");
 		}
 
-		return genericDao.delete(t);
+		genericDao.delete(t);
+	}
+
+	public void delete(final Long id) {
+
+		if (id == null) {
+			throw new RuntimeException("id cannot be null");
+		}
+
+		genericDao.delete(this.getById(id));
 	}
 
 	public List<T> getAll() {
