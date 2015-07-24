@@ -18,13 +18,7 @@
 package com.kodgemisi.parabot.dal;
 
 import com.kodgemisi.parabot.model.BaseModel;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -37,10 +31,11 @@ public interface GenericDao<T extends BaseModel> {
 
     public Long update(final T t);
 
-    public Long delete(final T t);
+    public void delete(final T t);
+
+    void delete(Long id, Class clazz);
 
     public List<T> getAll();
 
     public void hardDelete(final T t);
-
 }
