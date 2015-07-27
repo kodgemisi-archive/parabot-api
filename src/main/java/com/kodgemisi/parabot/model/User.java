@@ -17,18 +17,21 @@
 
 package com.kodgemisi.parabot.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by destan on 23.07.2015.
  */
 @Entity
 @Table(name = "APP_USER")
-public class User extends BaseModel{
+public class User extends BaseModel implements UserDetails {
 
     private String username;
     private String password;
@@ -41,8 +44,36 @@ public class User extends BaseModel{
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("USER");
+        List<SimpleGrantedAuthority> list = new ArrayList<SimpleGrantedAuthority>();
+        list.add(simpleGrantedAuthority);
+        return list;
     }
 
     public String getPassword() {

@@ -37,6 +37,7 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableTransactionManagement
 @PropertySource("classpath:error.properties")
+@Import(SecurityConfig.class)
 public class WebConfig {
 
     @Bean(name = "dataSource")
