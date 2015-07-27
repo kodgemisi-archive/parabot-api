@@ -55,4 +55,12 @@ public abstract class Agent extends BaseModel {
     public void setColor(String color) {
         this.color = color;
     }
+
+    public Account getOwnerAccount() {
+        return ownerAccount;
+    }
+
+    public void setOwnerAccount(Account ownerAccount) {
+        this.ownerAccount = ownerAccount;
+    }
 }

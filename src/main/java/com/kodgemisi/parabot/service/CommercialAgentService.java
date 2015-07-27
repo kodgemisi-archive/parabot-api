@@ -24,5 +24,5 @@ import org.springframework.stereotype.Service;
  * Created by destan on 23.07.2015.
  */
 @Service
-public class CommertialAgentService extends GenericService<Commercial> {
+public class CommercialAgentService extends GenericService<Commercial> {
 }

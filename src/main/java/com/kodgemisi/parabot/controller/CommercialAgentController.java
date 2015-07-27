@@ -19,6 +19,7 @@ package com.kodgemisi.parabot.controller;
 
 import com.kodgemisi.parabot.model.Commercial;
 import com.kodgemisi.parabot.service.AgentService;
+import com.kodgemisi.parabot.service.CommercialAgentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,12 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by destan on 23.07.2015.
  */
 @RestController
-@RequestMapping("/agents")
+@RequestMapping("/commercials")
 public class CommercialAgentController extends GenericCrudController<Commercial> {
     private static final Logger logger = LoggerFactory.getLogger(CommercialAgentController.class);
 
     @Autowired
-    private AgentService agentService;
+    private CommercialAgentService commercialService;
 
 
 }
