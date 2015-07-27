@@ -17,18 +17,32 @@
 
 package com.kodgemisi.parabot.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by destan on 23.07.2015.
  */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include= JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value=Commercial.class, name="commercial"),
+        @JsonSubTypes.Type(value=Employee.class, name="employee"),
+        @JsonSubTypes.Type(value=Client.class, name="client")
+})
 public abstract class Agent extends BaseModel {
     private String name;
     private String description;
     private String color;
 
+    @JsonIgnore
     @ManyToOne
     private Account ownerAccount;
 

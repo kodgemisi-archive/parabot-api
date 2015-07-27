@@ -19,6 +19,8 @@ package com.kodgemisi.parabot.controller;
 
 import com.kodgemisi.parabot.model.BaseModel;
 import com.kodgemisi.parabot.service.GenericService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,13 @@ public abstract class GenericCrudController <T extends BaseModel> {
 
     @Autowired
     private GenericService<T> genericService;
+
+    protected Logger logger;
+
+    public GenericCrudController() {
+        Class<?> type = this.getClass().getSuperclass();
+        logger = LoggerFactory.getLogger(type);
+    }
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)

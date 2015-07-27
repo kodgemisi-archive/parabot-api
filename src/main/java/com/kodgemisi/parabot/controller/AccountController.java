@@ -17,28 +17,56 @@
 
 package com.kodgemisi.parabot.controller;
 
-import com.kodgemisi.parabot.model.Account;
+import com.kodgemisi.parabot.model.*;
 import com.kodgemisi.parabot.service.AccountService;
-import com.kodgemisi.parabot.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by destan on 23.07.2015.
- */
+import java.util.List;
+
 @RestController
 @RequestMapping("/accounts")
 public class AccountController extends GenericCrudController<Account>{
-    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     private AccountService accountService;
 
-    @Autowired
-    private UserService userService;
+    @RequestMapping("/{id}/agents")
+    public List<Agent> agents(@PathVariable("id") Long id){
+        return accountService.getAgents(id);
+    }
 
+    @RequestMapping(value = "/{id}/commercials", method = RequestMethod.POST)
+    public Agent addCommercial(@PathVariable("id") Long id, Commercial agent){
+        return accountService.addAgent(id, agent);
+    }
+
+    @RequestMapping(value = "/{id}/clients", method = RequestMethod.POST)
+    public Agent addClient(@PathVariable("id") Long id, Client agent){
+        return accountService.addAgent(id, agent);
+    }
+
+    @RequestMapping(value = "/{id}/employees", method = RequestMethod.POST)
+    public Agent addEmployee(@PathVariable("id") Long id, Employee agent){
+        return accountService.addAgent(id, agent);
+    }
+
+    @RequestMapping(value = "/{id}/commercials")
+    public List<Commercial> getCommercials(@PathVariable("id") Long id){
+        return accountService.getCommercials(id);
+    }
+
+    @RequestMapping(value = "/{id}/clients")
+    public List<Client> getClients(@PathVariable("id") Long id){
+        return accountService.getClients(id);
+    }
+
+    @RequestMapping(value = "/{id}/employees")
+    public List<Employee> getEmployees(@PathVariable("id") Long id){
+        return accountService.getEmployees(id);
+    }
 
 }

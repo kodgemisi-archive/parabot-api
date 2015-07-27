@@ -17,6 +17,7 @@ public class ExceptionHandler {
     @ResponseBody
     @org.springframework.web.bind.annotation.ExceptionHandler(NullPointerException.class)
     public ErrorMessageJSON handleNullPointerException(NullPointerException e) {
+        e.printStackTrace();
         return new ErrorMessageJSON(true, e.toString(), messageHelper.getCode(e), messageHelper.getMessage(e));
     }
 

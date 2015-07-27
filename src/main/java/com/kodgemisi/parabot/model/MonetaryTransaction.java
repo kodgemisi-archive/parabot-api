@@ -17,6 +17,7 @@
 
 package com.kodgemisi.parabot.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
@@ -38,10 +39,10 @@ public class MonetaryTransaction extends BaseModel {
 
     private BigDecimal value;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Agent agent;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Account.class)
     private Account account;
 
     private TransactionType transactionType = TransactionType.COMMON;

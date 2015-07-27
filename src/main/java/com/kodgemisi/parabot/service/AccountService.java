@@ -17,12 +17,46 @@
 
 package com.kodgemisi.parabot.service;
 
-import com.kodgemisi.parabot.model.Account;
+import com.kodgemisi.parabot.dal.AccountDao;
+import com.kodgemisi.parabot.dal.AgentDao;
+import com.kodgemisi.parabot.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by destan on 23.07.2015.
  */
 @Service
 public class AccountService extends GenericService<Account> {
+
+    @Autowired
+    private AccountDao accountDao;
+
+    @Autowired
+    private AgentDao agentDao;
+
+    public List<Agent> getAgents(Long id) {
+        return accountDao.getAgents(id);
+    }
+
+    public Agent addAgent(Long id, Agent agent) {
+        agentDao.create(agent);
+        Account account = accountDao.getById(id);
+        agent.setOwnerAccount(account);
+        return agent;
+    }
+
+    public List<Commercial> getCommercials(Long id) {
+        return accountDao.getAgents(id, Commercial.class);
+    }
+
+    public List<Client> getClients(Long id) {
+        return accountDao.getAgents(id, Client.class);
+    }
+
+    public List<Employee> getEmployees(Long id) {
+        return accountDao.getAgents(id, Employee.class);
+    }
 }

@@ -19,6 +19,8 @@ package com.kodgemisi.parabot.service;
 
 import com.kodgemisi.parabot.dal.GenericDao;
 import com.kodgemisi.parabot.model.BaseModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,13 @@ import java.util.List;
 public abstract class GenericService<T extends BaseModel> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	protected Logger logger;
+
+	public GenericService() {
+		Class<?> type = this.getClass().getSuperclass();
+		logger = LoggerFactory.getLogger(type);
+	}
 
 	@Autowired
 	protected GenericDao<T> genericDao;

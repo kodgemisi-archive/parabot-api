@@ -22,6 +22,8 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.ParameterizedType;
@@ -38,6 +40,8 @@ public class GenericDao<T extends BaseModel> {
     protected SessionFactory sessionFactory;
 
     final protected Class<T> type;
+
+    protected Logger logger;
 
     /**
      * Sets generic type class for this Dao. By setting this we will be able to
@@ -64,6 +68,9 @@ public class GenericDao<T extends BaseModel> {
     public GenericDao() {
         this.type = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
+
+        Class<?> type = this.getClass().getSuperclass();
+        logger = LoggerFactory.getLogger(type);
     }
 
     public Long create(final T t) {
@@ -121,6 +128,11 @@ public class GenericDao<T extends BaseModel> {
 
     public void delete(Long id, Class clazz) {
         final Session session = sessionFactory.getCurrentSession();
-        this.delete((T)session.load(clazz, id));
+        this.delete((T) session.load(clazz, id));
+    }
+
+    protected Criteria createCriteria(){
+        final Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(type);
     }
 }
