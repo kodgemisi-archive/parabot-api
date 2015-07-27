@@ -19,6 +19,7 @@ package com.kodgemisi.parabot.dal;
 
 import com.kodgemisi.parabot.model.BaseModel;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +108,7 @@ public class GenericDaoImpl<T extends BaseModel> implements GenericDao<T> {
         final Session session = sessionFactory.getCurrentSession();
         final Criteria criteria = session.createCriteria(type);
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        criteria.setFetchMode("*", FetchMode.JOIN);
 
         return criteria.list();
     }

@@ -20,6 +20,7 @@ package com.kodgemisi.parabot.model;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -34,7 +35,7 @@ public class User extends BaseModel{
     private String fullName;
 
     @ManyToMany(mappedBy = "users")
-    private Set<Account> accounts;
+    private Set<Account> accounts = new HashSet<>();
 
     public String getUsername() {
         return username;
