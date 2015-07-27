@@ -17,6 +17,7 @@
 
 package com.kodgemisi.parabot.controller;
 
+import com.kodgemisi.parabot.model.Account;
 import com.kodgemisi.parabot.model.User;
 import com.kodgemisi.parabot.service.UserService;
 import org.slf4j.Logger;
@@ -35,5 +36,11 @@ public class UserController extends GenericCrudController<User> {
     @Autowired
     private UserService userService;
 
+
+
+    @RequestMapping(value = "/{id}/accounts", method = RequestMethod.POST)
+    public void addAccount(@PathVariable("id") Long id, @RequestBody Account account){
+        userService.addAccount(id, account);
+    }
 
 }

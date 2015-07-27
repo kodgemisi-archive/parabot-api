@@ -17,12 +17,30 @@
 
 package com.kodgemisi.parabot.service;
 
+import com.kodgemisi.parabot.model.Account;
 import com.kodgemisi.parabot.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 /**
  * Created by destan on 23.07.2015.
  */
 @Service
+@Transactional
 public class UserService extends GenericService<User> {
+
+    @Autowired
+    private AccountService accountService;
+
+
+    public void addAccount(Long userId, Account account) {
+        User user = this.getById(userId);
+
+        account.getUsers().add(user);// TODO check of this works
+        accountService.create(account);
+
+        user.getAccounts().add(account);
+    }
 }

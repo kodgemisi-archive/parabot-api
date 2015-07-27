@@ -18,22 +18,20 @@
 package com.kodgemisi.parabot.controller;
 
 import com.kodgemisi.parabot.model.Account;
-import com.kodgemisi.parabot.model.User;
 import com.kodgemisi.parabot.service.AccountService;
 import com.kodgemisi.parabot.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by destan on 23.07.2015.
  */
 @RestController
 @RequestMapping("/accounts")
-public class AccountController {
+public class AccountController extends GenericCrudController<Account>{
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
@@ -42,34 +40,5 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public Account createAccount() {
-        Map<String,String> result = new HashMap<String, String>();
-        result.put("here", "zaa");
-        logger.info("This is a log");
 
-        Account acc = new Account();
-
-        acc.setName("kodgemisi");
-        accountService.create(acc);
-
-        return acc;
-    }
-
-    @ResponseBody
-    @RequestMapping("/{id}")
-    public Account seeAccount(@PathVariable Long id) {
-        Account acc = accountService.getById(id);
-        Set<User> users = new HashSet<>();
-        users.add(userService.getById(1L));
-        acc.setUsers(users);
-        return acc;
-    }
-
-    @ResponseBody
-    @RequestMapping
-    public List<Account> getAllAccounts() {
-        return accountService.getAll();
-    }
 }
