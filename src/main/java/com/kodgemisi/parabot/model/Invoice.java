@@ -28,14 +28,14 @@ import java.util.Set;
  */
 @Entity
 public class Invoice extends BaseModel {
-    private String desc;
+    private String description;
     private Calendar invoiceDate;
     private Calendar paymentDate;
 
     @ManyToOne
     private Agent agent;
 
-    @OneToMany
+    @OneToMany(mappedBy = "invoice")
     private Set<MonetaryTransaction> transactions;
 
     public Set<MonetaryTransaction> getTransactions() {
@@ -46,12 +46,12 @@ public class Invoice extends BaseModel {
         this.transactions = transactions;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Calendar getInvoiceDate() {
