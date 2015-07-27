@@ -20,10 +20,7 @@ package com.kodgemisi.parabot.controller;
 import com.kodgemisi.parabot.model.*;
 import com.kodgemisi.parabot.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,17 +37,20 @@ public class AccountController extends GenericCrudController<Account>{
     }
 
     @RequestMapping(value = "/{id}/commercials", method = RequestMethod.POST)
-    public Agent addCommercial(@PathVariable("id") Long id, Commercial agent){
+    public Agent addCommercial(@PathVariable("id") Long id, @RequestBody Commercial agent){
         return accountService.addAgent(id, agent);
     }
 
     @RequestMapping(value = "/{id}/clients", method = RequestMethod.POST)
-    public Agent addClient(@PathVariable("id") Long id, Client agent){
+    public Agent addClient(@PathVariable("id") Long id, @RequestBody Client agent){
+
+        System.out.println("id = [" + id + "], agent = [" + agent + "]");
+
         return accountService.addAgent(id, agent);
     }
 
     @RequestMapping(value = "/{id}/employees", method = RequestMethod.POST)
-    public Agent addEmployee(@PathVariable("id") Long id, Employee agent){
+    public Agent addEmployee(@PathVariable("id") Long id, @RequestBody Employee agent){
         return accountService.addAgent(id, agent);
     }
 

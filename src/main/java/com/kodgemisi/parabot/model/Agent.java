@@ -77,4 +77,14 @@ public abstract class Agent extends BaseModel {
     public void setOwnerAccount(Account ownerAccount) {
         this.ownerAccount = ownerAccount;
     }
+
+    @Override
+    public String toString() {
+        return "Agent{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", color='" + color + '\'' +
+                ", ownerAccount=" + ownerAccount +
+                '}';
+    }
 }

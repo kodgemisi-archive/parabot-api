@@ -20,6 +20,7 @@ package com.kodgemisi.parabot.service;
 import com.kodgemisi.parabot.model.Account;
 import com.kodgemisi.parabot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,6 +35,14 @@ public class UserService extends GenericService<User> {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public Long create(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return super.create(user);
+    }
 
     public void addAccount(Long userId, Account account) {
         User user = this.getById(userId);
