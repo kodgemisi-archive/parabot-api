@@ -29,7 +29,7 @@ public abstract class Agent extends BaseModel {
     private String description;
     private String color;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Account ownerAccount;
 
     public String getName() {
