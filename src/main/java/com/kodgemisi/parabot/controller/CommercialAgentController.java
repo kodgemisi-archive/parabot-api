@@ -15,16 +15,26 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kodgemisi.parabot.dal;
+package com.kodgemisi.parabot.controller;
 
-import com.kodgemisi.parabot.model.MonetaryTransaction;
-import org.springframework.stereotype.Repository;
+import com.kodgemisi.parabot.model.Commercial;
+import com.kodgemisi.parabot.service.AgentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by sedat on 24.07.2015.
+ * Created by destan on 23.07.2015.
  */
+@RestController
+@RequestMapping("/agents")
+public class CommercialAgentController extends GenericCrudController<Commercial> {
+    private static final Logger logger = LoggerFactory.getLogger(CommercialAgentController.class);
 
-@Repository
-public class MonetaryTransactionDao extends GenericDao<MonetaryTransaction> {
+    @Autowired
+    private AgentService agentService;
+
 
 }

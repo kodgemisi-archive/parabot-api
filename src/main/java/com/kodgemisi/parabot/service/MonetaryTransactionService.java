@@ -15,16 +15,14 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.kodgemisi.parabot.dal;
+package com.kodgemisi.parabot.service;
 
 import com.kodgemisi.parabot.model.MonetaryTransaction;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 /**
- * Created by sedat on 24.07.2015.
+ * Created by destan on 23.07.2015.
  */
-
-@Repository
-public class MonetaryTransactionDao extends GenericDao<MonetaryTransaction> {
-
+@Service
+public class MonetaryTransactionService extends GenericService<MonetaryTransaction> {
 }

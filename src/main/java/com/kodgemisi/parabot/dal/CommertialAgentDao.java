@@ -17,7 +17,7 @@
 
 package com.kodgemisi.parabot.dal;
 
-import com.kodgemisi.parabot.model.MonetaryTransaction;
+import com.kodgemisi.parabot.model.Commercial;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -25,6 +25,6 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class MonetaryTransactionDao extends GenericDao<MonetaryTransaction> {
+public class CommertialAgentDao extends GenericDao<Commercial> {
 
 }

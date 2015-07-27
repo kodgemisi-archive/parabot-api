@@ -6,5 +6,5 @@ import com.kodgemisi.parabot.model.Debt;
  * Created by sedat on 24.07.2015.
  */
 
-public interface DebtDao extends GenericDao<Debt> {
+public class DebtDao extends GenericDao<Debt> {
 }
