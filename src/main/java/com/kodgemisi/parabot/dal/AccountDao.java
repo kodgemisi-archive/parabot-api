@@ -29,4 +29,14 @@ public class AccountDao extends GenericDao<Account> {
         c.add(Restrictions.eq("ownerAccount.id", id));
         return c.list();
     }
+
+    public Account getDefaultAccountOfUser(Long id) {
+        Criteria c = createCriteria();
+        c.createAlias("users", "u");
+        c.add(Restrictions.eq("u.id", id));
+
+        List<Account> accounts = c.list();
+
+        return accounts.size() > 0 ? accounts.get(0) : null;
+    }
 }

@@ -94,4 +94,12 @@ public class MonetaryTransaction extends BaseModel {
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

@@ -19,6 +19,7 @@ package com.kodgemisi.parabot.service;
 
 import com.kodgemisi.parabot.model.Account;
 import com.kodgemisi.parabot.model.User;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,8 @@ public class UserService extends GenericService<User> {
     public void addAccount(Long userId, Account account) {
         User user = this.getById(userId);
 
+        Hibernate.initialize(account);
         account.getUsers().add(user);// TODO check of this works
-        accountService.create(account);
 
         user.getAccounts().add(account);
     }
