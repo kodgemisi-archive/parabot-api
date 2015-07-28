@@ -30,7 +30,7 @@ public class InvoiceService extends GenericService<Invoice> {
     public MonetaryTransaction addTransaction(Long id, MonetaryTransaction transaction) {
         transactionDao.create(transaction);
         Invoice invoice = invoiceDao.getById(id);
-        transaction.setInvoice(invoice);
+        invoice.getTransactions().add(transaction);
         return transaction;
     }
 }

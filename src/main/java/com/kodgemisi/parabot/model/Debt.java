@@ -30,7 +30,7 @@ import java.util.Set;
 @Entity
 public class Debt extends BaseModel {
     private String name;
-    private String desc;
+    private String description;
     private Calendar dueDate;
 
     @ManyToOne
@@ -50,12 +50,12 @@ public class Debt extends BaseModel {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Calendar getDueDate() {
