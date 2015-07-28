@@ -4,10 +4,7 @@ import com.kodgemisi.parabot.model.Debt;
 import com.kodgemisi.parabot.model.MonetaryTransaction;
 import com.kodgemisi.parabot.service.DebtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +18,13 @@ public class DebtController extends GenericCrudController<Debt> {
 
     @Autowired
     private DebtService debtService;
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    public Debt create(@RequestBody Debt debt){
+        debtService.create(debt, new MonetaryTransaction());
+        return debt;
+    }
 
     @RequestMapping("/{id}/transactions/paybacks")
     private List<MonetaryTransaction> transactions(@PathVariable("id") Long id) {
