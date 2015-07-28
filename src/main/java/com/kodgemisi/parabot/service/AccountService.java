@@ -59,4 +59,8 @@ public class AccountService extends GenericService<Account> {
     public List<Employee> getEmployees(Long id) {
         return accountDao.getAgents(id, Employee.class);
     }
+
+    public Account getDefaultAccountOfUser(Long id) {
+        return accountDao.getDefaultAccountOfUser(id);
+    }
 }

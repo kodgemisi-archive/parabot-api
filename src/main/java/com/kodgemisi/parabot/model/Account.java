@@ -17,6 +17,8 @@
 
 package com.kodgemisi.parabot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -33,6 +35,7 @@ public class Account extends BaseModel {
     private String description;
 
     @ManyToMany
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     @OneToMany(mappedBy = "ownerAccount")

@@ -19,8 +19,10 @@ package com.kodgemisi.parabot.config;
 
 import com.kodgemisi.parabot.model.Account;
 import com.kodgemisi.parabot.model.User;
+import com.kodgemisi.parabot.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -30,8 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by destan on 28.07.2015.
@@ -42,15 +42,19 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     public static String CURRENT_ACCOUNT_SESSION_KEY = "CURRENT_ACCOUNT_SESSION_KEY";
     private Logger logger = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);
 
+    @Autowired
+    private AccountService accountService;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         User currentUser = (User) authentication.getPrincipal();
         HttpSession session = request.getSession();
 
-        if(currentUser.getAccounts().size() > 0){
-            List<Account> list = new ArrayList<Account>(currentUser.getAccounts());
-            session.setAttribute(CURRENT_ACCOUNT_SESSION_KEY, list.get(0));
-            logger.debug("Account " + list.get(0) + " is added to the session of " + currentUser);
+        Account account = accountService.getDefaultAccountOfUser(currentUser.getId());
+
+        if(account != null){
+            session.setAttribute(CURRENT_ACCOUNT_SESSION_KEY, account);
+            logger.debug("Account " + account + " is added to the session of " + currentUser);
         }
 
         super.onAuthenticationSuccess(request, response, authentication);
