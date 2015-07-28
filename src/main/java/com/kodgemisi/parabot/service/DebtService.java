@@ -1,0 +1,41 @@
+package com.kodgemisi.parabot.service;
+
+import com.kodgemisi.parabot.dal.DebtDao;
+import com.kodgemisi.parabot.dal.MonetaryTransactionDao;
+import com.kodgemisi.parabot.model.Debt;
+import com.kodgemisi.parabot.model.MonetaryTransaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * Created by sedat on 28.07.2015.
+ */
+
+@Service
+public class DebtService extends GenericService<Debt> {
+
+    @Autowired
+    private MonetaryTransactionDao transactionDao;
+
+    @Autowired
+    private DebtDao debtDao;
+
+    public Long create(Debt debt, MonetaryTransaction transaction) {
+        transactionDao.create(transaction);
+        debt.setDebtTransaction(transaction);
+        return genericDao.create(debt);
+    }
+
+    public List<MonetaryTransaction> getPaybackTransactions(Long id) {
+        return debtDao.getPaybackTransactions(id);
+    }
+
+    public MonetaryTransaction addTransaction(Long id, MonetaryTransaction transaction) {
+        transactionDao.create(transaction);
+        Debt debt = debtDao.getById(id);
+        debt.getPaybacks().add(transaction);
+        return transaction;
+    }
+}

@@ -35,7 +35,7 @@ public class Invoice extends BaseModel {
     @ManyToOne
     private Agent agent;
 
-    @OneToMany(mappedBy = "invoice")
+    @OneToMany
     private Set<MonetaryTransaction> transactions;
 
     public Set<MonetaryTransaction> getTransactions() {
