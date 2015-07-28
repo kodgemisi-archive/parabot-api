@@ -17,6 +17,8 @@
 
 package com.kodgemisi.parabot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -44,6 +46,10 @@ public class MonetaryTransaction extends BaseModel {
 
     @ManyToOne(targetEntity = Account.class)
     private Account account;
+
+    @JsonIgnore
+    @ManyToOne(targetEntity = Invoice.class)
+    private Invoice invoice;
 
     private TransactionType transactionType = TransactionType.COMMON;
 
@@ -79,5 +85,13 @@ public class MonetaryTransaction extends BaseModel {
 
     public void setTransactionDate(Calendar transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 }
