@@ -50,7 +50,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         User currentUser = (User) authentication.getPrincipal();
         HttpSession session = request.getSession();
 
-        Account account = accountService.getDefaultAccountOfUser(currentUser.getId());
+        Account account = accountService.getDefaultAccountOfUser();
 
         if(account != null){
             session.setAttribute(CURRENT_ACCOUNT_SESSION_KEY, account);
