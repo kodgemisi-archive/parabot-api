@@ -6,6 +6,7 @@ import com.kodgemisi.parabot.service.DebtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class DebtController extends GenericCrudController<Debt> {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public Debt create(@RequestBody Debt debt){
+    public Debt create(@RequestBody @Valid Debt debt){
 
         // FIXME this is for development, should be refactored!
         MonetaryTransaction monetaryTransaction = debt.getDebtTransaction() == null ? new MonetaryTransaction() : debt.getDebtTransaction();
