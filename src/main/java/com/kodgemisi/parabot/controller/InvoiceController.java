@@ -23,12 +23,12 @@ public class InvoiceController extends GenericCrudController<Invoice> {
     private InvoiceService invoiceService;
 
     @RequestMapping("/{id}/transactions")
-    private List<MonetaryTransaction> transactions(@PathVariable("id") Long id) {
+    public List<MonetaryTransaction> transactions(@PathVariable("id") Long id) {
         return invoiceService.getTransactions(id);
     }
 
     @RequestMapping(value = "/{id}/transactions", method = RequestMethod.POST)
-    private MonetaryTransaction addTransaction(@PathVariable("id") Long id, MonetaryTransaction transaction) {
+    public MonetaryTransaction addTransaction(@PathVariable("id") Long id, MonetaryTransaction transaction) {
         return invoiceService.addTransaction(id, transaction);
     }
 }

@@ -27,12 +27,12 @@ public class DebtController extends GenericCrudController<Debt> {
     }
 
     @RequestMapping("/{id}/transactions/paybacks")
-    private List<MonetaryTransaction> transactions(@PathVariable("id") Long id) {
+    public List<MonetaryTransaction> transactions(@PathVariable("id") Long id) {
         return debtService.getPaybackTransactions(id);
     }
 
     @RequestMapping(value = "/{id}/transactions", method = RequestMethod.POST)
-    private MonetaryTransaction addTransaction(@PathVariable("id") Long id, MonetaryTransaction transaction) {
+    public MonetaryTransaction addTransaction(@PathVariable("id") Long id, MonetaryTransaction transaction) {
         return debtService.addTransaction(id, transaction);
     }
 }
