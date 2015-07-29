@@ -22,6 +22,8 @@ import com.kodgemisi.parabot.service.GenericService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,13 +46,15 @@ public abstract class GenericCrudController <T extends BaseModel> {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public T create(@RequestBody T t){
+    @Order(Ordered.LOWEST_PRECEDENCE)
+    protected T create(@RequestBody T t){
         genericService.create(t);
         return t;
     }
 
     @ResponseBody
     @RequestMapping("/{id}")
+    @Order(Ordered.LOWEST_PRECEDENCE)
     public T read(@PathVariable("id") Long id){
         return genericService.getById(id);
     }
@@ -65,12 +69,14 @@ public abstract class GenericCrudController <T extends BaseModel> {
     @ResponseBody
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @Order(Ordered.LOWEST_PRECEDENCE)
     public void delete(@PathVariable("id") Long id){
         genericService.delete(id);
     }
 
     @ResponseBody
     @RequestMapping
+    @Order(Ordered.LOWEST_PRECEDENCE)
     public List<T> list(){
         return genericService.getAll();
     }

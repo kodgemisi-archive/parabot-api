@@ -4,6 +4,7 @@ import com.kodgemisi.parabot.model.Debt;
 import com.kodgemisi.parabot.model.MonetaryTransaction;
 import com.kodgemisi.parabot.service.DebtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +23,7 @@ public class DebtController extends GenericCrudController<Debt> {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public Debt create(@RequestBody @Valid Debt debt){
+    public Debt create(@RequestBody @Valid Debt debt, BindingResult bindingResult){
 
         // FIXME this is for development, should be refactored!
         MonetaryTransaction monetaryTransaction = debt.getDebtTransaction() == null ? new MonetaryTransaction() : debt.getDebtTransaction();
@@ -30,6 +31,18 @@ public class DebtController extends GenericCrudController<Debt> {
         debtService.create(debt, monetaryTransaction);
         return debt;
     }
+
+//    @ResponseBody
+//    @RequestMapping(method = RequestMethod.POST)
+//    @OverrideRequestMapping
+//    public Debt create(@RequestBody @Valid Debt debt, BindingResult bindingResult, Authentication authentication){
+//
+//        // FIXME this is for development, should be refactored!
+//        MonetaryTransaction monetaryTransaction = debt.getDebtTransaction() == null ? new MonetaryTransaction() : debt.getDebtTransaction();
+//
+//        debtService.create(debt, monetaryTransaction);
+//        return debt;
+//    }
 
     @RequestMapping("/{id}/transactions/paybacks")
     public List<MonetaryTransaction> transactions(@PathVariable("id") Long id) {

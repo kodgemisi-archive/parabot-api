@@ -25,6 +25,8 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -38,7 +40,20 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource("classpath:error.properties")
 @EnableAspectJAutoProxy
-public class WebConfig {
+public class WebConfig extends WebMvcConfigurationSupport {
+
+    @Bean
+    @Override
+    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
+        CustomRequestMappingHandlerMapping handlerMapping = new CustomRequestMappingHandlerMapping();
+        handlerMapping.setOrder(0);
+        handlerMapping.setInterceptors(getInterceptors());
+        handlerMapping.setContentNegotiationManager(mvcContentNegotiationManager());
+        handlerMapping.setUseTrailingSlashMatch(false);
+        handlerMapping.setUseSuffixPatternMatch(false);
+
+        return handlerMapping;
+    }
 
     @Bean(name = "dataSource")
     public DataSource getDataSource() {
