@@ -37,7 +37,14 @@ public class MonetaryTransaction extends BaseModel {
         WAGE
     }
 
-    private BigDecimal value;
+    public MonetaryTransaction(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public MonetaryTransaction() {
+    }
+
+    private BigDecimal amount;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Agent agent;
@@ -48,14 +55,6 @@ public class MonetaryTransaction extends BaseModel {
     private TransactionType transactionType = TransactionType.COMMON;
 
     private Calendar transactionDate;
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
 
     public Agent getAgent() {
         return agent;
@@ -87,5 +86,13 @@ public class MonetaryTransaction extends BaseModel {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 }

@@ -21,6 +21,9 @@ import com.kodgemisi.parabot.model.Account;
 import com.kodgemisi.parabot.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,5 +55,14 @@ public class UserService extends GenericService<User> {
         account.getUsers().add(user);// TODO check of this works
 
         user.getAccounts().add(account);
+    }
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            return (User) authentication.getPrincipal();
+        }
+
+        return null;
     }
 }

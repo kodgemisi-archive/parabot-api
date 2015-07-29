@@ -21,6 +21,7 @@ import com.kodgemisi.parabot.dal.AccountDao;
 import com.kodgemisi.parabot.dal.AgentDao;
 import com.kodgemisi.parabot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,6 +37,9 @@ public class AccountService extends GenericService<Account> {
 
     @Autowired
     private AgentDao agentDao;
+
+    @Autowired
+    private UserService userService;
 
     public List<Agent> getAgents(Long id) {
         return accountDao.getAgents(id);
@@ -60,7 +64,13 @@ public class AccountService extends GenericService<Account> {
         return accountDao.getAgents(id, Employee.class);
     }
 
-    public Account getDefaultAccountOfUser(Long id) {
-        return accountDao.getDefaultAccountOfUser(id);
+    public Account getDefaultAccountOfUser() {
+        User user = userService.getCurrentUser();
+
+        if(user == null){
+            throw new SessionAuthenticationException("User not logged in!");
+        }
+
+        return accountDao.getDefaultAccountOfUser(user.getId());
     }
 }

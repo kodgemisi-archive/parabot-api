@@ -22,7 +22,11 @@ public class DebtController extends GenericCrudController<Debt> {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public Debt create(@RequestBody Debt debt){
-        debtService.create(debt, new MonetaryTransaction());
+
+        // FIXME this is for development, should be refactored!
+        MonetaryTransaction monetaryTransaction = debt.getDebtTransaction() == null ? new MonetaryTransaction() : debt.getDebtTransaction();
+
+        debtService.create(debt, monetaryTransaction);
         return debt;
     }
 
