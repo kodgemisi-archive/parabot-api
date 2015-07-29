@@ -19,11 +19,13 @@ package com.kodgemisi.parabot.service;
 
 import com.kodgemisi.parabot.dal.AccountDao;
 import com.kodgemisi.parabot.dal.AgentDao;
+import com.kodgemisi.parabot.dal.MonetaryTransactionDao;
 import com.kodgemisi.parabot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -37,6 +39,9 @@ public class AccountService extends GenericService<Account> {
 
     @Autowired
     private AgentDao agentDao;
+
+    @Autowired
+    private MonetaryTransactionDao transactionDao;
 
     @Autowired
     private UserService userService;
@@ -72,5 +77,9 @@ public class AccountService extends GenericService<Account> {
         }
 
         return accountDao.getDefaultAccountOfUser(user.getId());
+    }
+
+    public BigDecimal getFinancialInfo() {
+        return transactionDao.expectedMoneyFromDebts().abs(); //expected money from given debts.
     }
 }

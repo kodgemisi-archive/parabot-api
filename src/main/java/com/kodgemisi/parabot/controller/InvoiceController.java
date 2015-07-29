@@ -4,10 +4,7 @@ import com.kodgemisi.parabot.model.Invoice;
 import com.kodgemisi.parabot.model.MonetaryTransaction;
 import com.kodgemisi.parabot.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,7 +25,8 @@ public class InvoiceController extends GenericCrudController<Invoice> {
     }
 
     @RequestMapping(value = "/{id}/transactions", method = RequestMethod.POST)
-    public MonetaryTransaction addTransaction(@PathVariable("id") Long id, MonetaryTransaction transaction) {
+    public MonetaryTransaction addTransaction(@PathVariable("id") Long id, @RequestBody MonetaryTransaction transaction) {
+        transaction.setTransactionType(MonetaryTransaction.TransactionType.INCOME);
         return invoiceService.addTransaction(id, transaction);
     }
 }

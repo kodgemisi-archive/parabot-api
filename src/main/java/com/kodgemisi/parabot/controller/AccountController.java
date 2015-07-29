@@ -22,7 +22,9 @@ import com.kodgemisi.parabot.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/accounts")
@@ -67,6 +69,11 @@ public class AccountController extends GenericCrudController<Account>{
     @RequestMapping(value = "/{id}/employees")
     public List<Employee> getEmployees(@PathVariable("id") Long id){
         return accountService.getEmployees(id);
+    }
+
+    @RequestMapping(value = "/{id}/overview")
+    public BigDecimal getFinancialInformation(@PathVariable("id") Long id) {
+        return accountService.getFinancialInfo();
     }
 
 }

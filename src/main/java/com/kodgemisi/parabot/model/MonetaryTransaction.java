@@ -34,7 +34,9 @@ public class MonetaryTransaction extends BaseModel {
         FILTHY_LUCRE,
         PAYBACK,
         RENT,
-        WAGE
+        WAGE,
+        INCOME,
+        DEBT
     }
 
     public MonetaryTransaction(BigDecimal amount) {
@@ -42,6 +44,16 @@ public class MonetaryTransaction extends BaseModel {
     }
 
     public MonetaryTransaction() {
+    }
+
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     private BigDecimal amount;

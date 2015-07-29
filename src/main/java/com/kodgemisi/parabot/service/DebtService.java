@@ -8,6 +8,7 @@ import com.kodgemisi.parabot.model.MonetaryTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -26,12 +27,12 @@ public class DebtService extends GenericService<Debt> {
     @Autowired
     private AccountService accountService;
 
-    public Long create(Debt debt, MonetaryTransaction transaction) {
+    public Long create(Debt debt) {
+        MonetaryTransaction transaction = debt.getDebtTransaction();
         Account account = accountService.getDefaultAccountOfUser();
         transaction.setAccount(account);
-
+        transaction.setTransactionType(MonetaryTransaction.TransactionType.DEBT);
         transactionDao.create(transaction);
-        debt.setDebtTransaction(transaction);
         return genericDao.create(debt);
     }
 

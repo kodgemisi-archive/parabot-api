@@ -28,7 +28,7 @@ public class DebtController extends GenericCrudController<Debt> {
         // FIXME this is for development, should be refactored!
         MonetaryTransaction monetaryTransaction = debt.getDebtTransaction() == null ? new MonetaryTransaction() : debt.getDebtTransaction();
 
-        debtService.create(debt, monetaryTransaction);
+        debtService.create(debt);
         return debt;
     }
 
@@ -50,7 +50,8 @@ public class DebtController extends GenericCrudController<Debt> {
     }
 
     @RequestMapping(value = "/{id}/transactions", method = RequestMethod.POST)
-    public MonetaryTransaction addTransaction(@PathVariable("id") Long id, MonetaryTransaction transaction) {
+    public MonetaryTransaction addTransaction(@PathVariable("id") Long id, @RequestBody MonetaryTransaction transaction) {
+        transaction.setTransactionType(MonetaryTransaction.TransactionType.PAYBACK);
         return debtService.addTransaction(id, transaction);
     }
 }
