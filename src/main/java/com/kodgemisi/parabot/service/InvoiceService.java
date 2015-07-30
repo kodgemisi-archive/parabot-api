@@ -28,6 +28,7 @@ public class InvoiceService extends GenericService<Invoice> {
     }
 
     public MonetaryTransaction addTransaction(Long id, MonetaryTransaction transaction) {
+        transaction.setTransactionType(MonetaryTransaction.TransactionType.INCOME);
         transactionDao.create(transaction);
         Invoice invoice = invoiceDao.getById(id);
         invoice.getTransactions().add(transaction);

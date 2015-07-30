@@ -19,6 +19,7 @@ package com.kodgemisi.parabot.service;
 
 import com.kodgemisi.parabot.dal.AccountDao;
 import com.kodgemisi.parabot.dal.AgentDao;
+import com.kodgemisi.parabot.dal.InvoiceDao;
 import com.kodgemisi.parabot.dal.MonetaryTransactionDao;
 import com.kodgemisi.parabot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,9 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by destan on 23.07.2015.
@@ -42,6 +45,9 @@ public class AccountService extends GenericService<Account> {
 
     @Autowired
     private MonetaryTransactionDao transactionDao;
+
+    @Autowired
+    private InvoiceDao invoiceDao;
 
     @Autowired
     private UserService userService;
@@ -79,7 +85,19 @@ public class AccountService extends GenericService<Account> {
         return accountDao.getDefaultAccountOfUser(user.getId());
     }
 
-    public BigDecimal getFinancialInfo() {
-        return transactionDao.expectedMoneyFromDebts().abs(); //expected money from given debts.
+    public Map<String, BigDecimal> getFinancialInfo() {
+        BigDecimal totalIncome = transactionDao.totalIncome();
+        BigDecimal totalOutgoing = transactionDao.totalOutgoing();
+
+        //TODO: check for the case which tables are empty
+        Map<String, BigDecimal> map = new HashMap<>();
+        map.put("expected money from debts", transactionDao.expectedMoneyFromDebts().abs());
+        map.put("total debt we have to pay", transactionDao.totalDebt());
+        map.put("total income", totalIncome);
+        map.put("total future income", invoiceDao.totalInvoiceAmount().subtract(totalIncome));
+        map.put("total outgoing", totalOutgoing.abs());
+        map.put("money in the case", totalIncome.subtract(totalOutgoing));
+
+        return map;
     }
 }

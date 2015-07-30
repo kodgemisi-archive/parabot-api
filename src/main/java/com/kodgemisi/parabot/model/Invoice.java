@@ -20,6 +20,7 @@ package com.kodgemisi.parabot.model;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class Invoice extends BaseModel {
     private String description;
     private Calendar invoiceDate;
     private Calendar paymentDate;
-    private BigInteger amount;
+    private BigDecimal amount;
 
     @ManyToOne
     private Agent agent;
@@ -80,11 +81,11 @@ public class Invoice extends BaseModel {
         this.agent = agent;
     }
 
-    public BigInteger getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(BigInteger amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 }

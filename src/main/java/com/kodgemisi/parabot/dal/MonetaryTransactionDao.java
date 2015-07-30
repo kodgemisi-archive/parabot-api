@@ -19,13 +19,11 @@ package com.kodgemisi.parabot.dal;
 
 import com.kodgemisi.parabot.model.MonetaryTransaction;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Created by sedat on 24.07.2015.
@@ -33,24 +31,67 @@ import java.util.List;
 
 @Repository
 public class MonetaryTransactionDao extends GenericDao<MonetaryTransaction> {
+    BigDecimal zero = new BigDecimal(0);
+    private final static String AMOUNT = "amount";
+    private final static String TRANSACTION_TYPE = "transactionType";
+
     public BigDecimal expectedMoneyFromDebts() {
-        final Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(MonetaryTransaction.class);
+        Criteria criteria = createCriteria();
+        criteria.setProjection(Projections.sum(AMOUNT));
 
-        criteria.setProjection(Projections.sum("amount"));
-
-        Criterion transactionTypeDebt = Restrictions.eq("transactionType", MonetaryTransaction.TransactionType.DEBT);
-        Criterion transactionTypeAmountGiven = Restrictions.lt("amount", new BigDecimal(0));
+        Criterion transactionTypeDebt = Restrictions.eq(TRANSACTION_TYPE, MonetaryTransaction.TransactionType.DEBT);
+        Criterion transactionTypeAmountGiven = Restrictions.lt(AMOUNT, zero);
         LogicalExpression givenDebt = Restrictions.and(transactionTypeDebt, transactionTypeAmountGiven);
 
-        Criterion transactionTypePayback = Restrictions.eq("transactionType", MonetaryTransaction.TransactionType.PAYBACK);
-        Criterion transactionTypeAmountTaken = Restrictions.gt("amount", new BigDecimal(0));
+        Criterion transactionTypePayback = Restrictions.eq(TRANSACTION_TYPE, MonetaryTransaction.TransactionType.PAYBACK);
+        Criterion transactionTypeAmountTaken = Restrictions.gt(AMOUNT, zero);
         LogicalExpression takenPayback = Restrictions.and(transactionTypePayback, transactionTypeAmountTaken);
 
         criteria.add(Restrictions.or(givenDebt, takenPayback));
 
-
         //SELECT sum(amount) FROM transaction WHERE (type=debt AND amount<0) OR (type=payback AND amount>0)
+
+        return (BigDecimal) criteria.uniqueResult();
+    }
+
+    public BigDecimal totalDebt() {
+        Criteria criteria = createCriteria();
+        criteria.setProjection(Projections.sum(AMOUNT));
+
+        Criterion transactionTypeDebt = Restrictions.eq(TRANSACTION_TYPE, MonetaryTransaction.TransactionType.DEBT);
+        Criterion transactionTypeAmountTaken = Restrictions.gt(AMOUNT, zero);
+        LogicalExpression takenDebt = Restrictions.and(transactionTypeDebt, transactionTypeAmountTaken);
+
+        Criterion transactionTypePayback = Restrictions.eq(TRANSACTION_TYPE, MonetaryTransaction.TransactionType.PAYBACK);
+        Criterion transactionTypeAmountGiven = Restrictions.lt(AMOUNT, zero);
+        LogicalExpression givenPayback = Restrictions.and(transactionTypePayback, transactionTypeAmountGiven);
+
+        criteria.add(Restrictions.or(takenDebt, givenPayback));
+
+        return (BigDecimal) criteria.uniqueResult();
+    }
+
+    public BigDecimal totalIncome() {
+        Criteria criteria = createCriteria();
+        criteria.setProjection(Projections.sum(AMOUNT));
+
+        Criterion incomeFromInvoices = Restrictions.eq(TRANSACTION_TYPE, MonetaryTransaction.TransactionType.INCOME);
+        Criterion dirtyMoney = Restrictions.eq(TRANSACTION_TYPE, MonetaryTransaction.TransactionType.FILTHY_LUCRE);
+
+        criteria.add(Restrictions.or(incomeFromInvoices, dirtyMoney));
+
+        return (BigDecimal) criteria.uniqueResult();
+    }
+
+    public BigDecimal totalOutgoing() {
+        Criteria criteria = createCriteria();
+        criteria.setProjection(Projections.sum(AMOUNT));
+
+        Criterion wage = Restrictions.eq(TRANSACTION_TYPE, MonetaryTransaction.TransactionType.WAGE);
+        Criterion rent = Restrictions.eq(TRANSACTION_TYPE, MonetaryTransaction.TransactionType.RENT);
+        Criterion common = Restrictions.eq(TRANSACTION_TYPE, MonetaryTransaction.TransactionType.COMMON);
+
+        criteria.add(Restrictions.or(wage, rent, common));
 
         return (BigDecimal) criteria.uniqueResult();
     }

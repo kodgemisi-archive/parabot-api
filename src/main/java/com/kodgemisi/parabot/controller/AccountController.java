@@ -72,8 +72,7 @@ public class AccountController extends GenericCrudController<Account>{
     }
 
     @RequestMapping(value = "/{id}/overview")
-    public BigDecimal getFinancialInformation(@PathVariable("id") Long id) {
+    public Map<String, BigDecimal> getFinancialInformation(@PathVariable("id") Long id) {
         return accountService.getFinancialInfo();
     }
-
 }

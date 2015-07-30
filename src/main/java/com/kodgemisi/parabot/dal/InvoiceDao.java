@@ -6,9 +6,11 @@ import com.kodgemisi.parabot.model.MonetaryTransaction;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,5 +29,12 @@ public class InvoiceDao extends GenericDao<Invoice> {
         Invoice invoice = (Invoice) c.uniqueResult();
 
         return new ArrayList<>(invoice.getTransactions());
+    }
+
+    public BigDecimal totalInvoiceAmount() {
+        Criteria c = createCriteria();
+        c.setProjection(Projections.sum("amount"));
+
+        return (BigDecimal) c.uniqueResult();
     }
 }
