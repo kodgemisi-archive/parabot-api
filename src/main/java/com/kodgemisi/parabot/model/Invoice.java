@@ -17,9 +17,12 @@
 
 package com.kodgemisi.parabot.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
@@ -30,13 +33,18 @@ import java.util.Set;
  */
 @Entity
 public class Invoice extends BaseModel {
+    @NotEmpty
     private String description;
+
     private Calendar invoiceDate;
     private Calendar paymentDate;
+
+    @NotNull
     private BigDecimal amount;
 
+    @NotNull
     @ManyToOne
-    private Agent agent;
+    private Client client;
 
     @OneToMany
     private Set<MonetaryTransaction> transactions;
@@ -73,12 +81,12 @@ public class Invoice extends BaseModel {
         this.paymentDate = paymentDate;
     }
 
-    public Agent getAgent() {
-        return agent;
+    public Client getClient() {
+        return client;
     }
 
-    public void setAgent(Agent agent) {
-        this.agent = agent;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public BigDecimal getAmount() {

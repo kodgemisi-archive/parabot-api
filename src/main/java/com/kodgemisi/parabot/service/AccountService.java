@@ -56,6 +56,16 @@ public class AccountService extends GenericService<Account> {
         return accountDao.getAgents(id);
     }
 
+    public Long create(Account account) {
+        if (account == null) {
+            throw new RuntimeException("Model cannot be null");
+        }
+
+        account.getUsers().add(userService.getCurrentUser());
+
+        return genericDao.create(account);
+    }
+
     public Agent addAgent(Long id, Agent agent) {
         agentDao.create(agent);
         Account account = accountDao.getById(id);

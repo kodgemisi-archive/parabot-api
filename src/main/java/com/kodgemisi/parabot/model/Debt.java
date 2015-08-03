@@ -17,10 +17,13 @@
 
 package com.kodgemisi.parabot.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.Set;
 
@@ -29,14 +32,18 @@ import java.util.Set;
  */
 @Entity
 public class Debt extends BaseModel {
+    @NotEmpty
     private String name;
+
     private String description;
+
     private Calendar dueDate;
 
     @ManyToOne
     private Agent agent;
 
     @OneToOne
+    @NotNull
     private MonetaryTransaction debtTransaction;
 
     @OneToMany

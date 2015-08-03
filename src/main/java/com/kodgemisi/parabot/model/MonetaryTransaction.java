@@ -17,9 +17,13 @@
 
 package com.kodgemisi.parabot.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
@@ -46,7 +50,22 @@ public class MonetaryTransaction extends BaseModel {
     public MonetaryTransaction() {
     }
 
+    @NotEmpty
     private String description;
+
+    @NotNull
+    private BigDecimal amount;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Agent agent;
+
+    @NotNull
+    @ManyToOne(targetEntity = Account.class)
+    private Account account;
+
+    private TransactionType transactionType = TransactionType.COMMON;
+
+    private Calendar transactionDate;
 
     public String getDescription() {
         return description;
@@ -55,18 +74,6 @@ public class MonetaryTransaction extends BaseModel {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    private BigDecimal amount;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Agent agent;
-
-    @ManyToOne(targetEntity = Account.class)
-    private Account account;
-
-    private TransactionType transactionType = TransactionType.COMMON;
-
-    private Calendar transactionDate;
 
     public Agent getAgent() {
         return agent;

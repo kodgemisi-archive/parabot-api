@@ -20,6 +20,7 @@ package com.kodgemisi.parabot.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -38,7 +39,9 @@ import javax.persistence.ManyToOne;
         @JsonSubTypes.Type(value=Client.class, name="client")
 })
 public abstract class Agent extends BaseModel {
+    @NotEmpty
     private String name;
+
     private String description;
     private String color;
 
