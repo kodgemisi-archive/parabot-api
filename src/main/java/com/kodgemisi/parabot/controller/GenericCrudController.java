@@ -27,7 +27,9 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by destan on 24.07.2015.
@@ -44,10 +46,11 @@ public abstract class GenericCrudController <T extends BaseModel> {
         logger = LoggerFactory.getLogger(type);
     }
 
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     @Order(Ordered.LOWEST_PRECEDENCE)
-    protected T create(@RequestBody T t){ //TODO: when validation added, check aspect
+    public T create(@Valid @RequestBody T t) { //TODO: when validation added, check aspect
         genericService.create(t);
         return t;
     }
@@ -56,6 +59,9 @@ public abstract class GenericCrudController <T extends BaseModel> {
     @RequestMapping("/{id}")
     @Order(Ordered.LOWEST_PRECEDENCE)
     public T read(@PathVariable("id") Long id){
+        if (null == genericService.getById(id))
+            throw new NoSuchElementException();
+
         return genericService.getById(id);
     }
 

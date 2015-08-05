@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -20,17 +21,6 @@ public class DebtController extends GenericCrudController<Debt> {
 
     @Autowired
     private DebtService debtService;
-
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public Debt create(@RequestBody @Valid Debt debt, BindingResult bindingResult){
-
-        // FIXME this is for development, should be refactored!
-        MonetaryTransaction monetaryTransaction = debt.getDebtTransaction() == null ? new MonetaryTransaction() : debt.getDebtTransaction();
-
-        debtService.create(debt);
-        return debt;
-    }
 
 //    @ResponseBody
 //    @RequestMapping(method = RequestMethod.POST)
@@ -50,7 +40,7 @@ public class DebtController extends GenericCrudController<Debt> {
     }
 
     @RequestMapping(value = "/{id}/transactions", method = RequestMethod.POST)
-    public MonetaryTransaction addTransaction(@PathVariable("id") Long id, @RequestBody MonetaryTransaction transaction) {
+    public MonetaryTransaction addTransaction(@PathVariable("id") Long id, @Valid @RequestBody MonetaryTransaction transaction) {
         transaction.setTransactionType(MonetaryTransaction.TransactionType.PAYBACK);
         return debtService.addTransaction(id, transaction);
     }

@@ -34,7 +34,7 @@ import javax.servlet.http.HttpSession;
 @Aspect
 public class AddAccountToNewModelsAspect {
 
-    @Before(value = "execution(public * create(..) ) && @annotation(org.springframework.web.bind.annotation.ResponseBody) && args(com.kodgemisi.parabot.model.BaseModel+)")
+    @Before(value = "execution(public * create(..) ) && args(com.kodgemisi.parabot.model.BaseModel+)")
     public void pushClientData(JoinPoint joinPoint) {
 
         Account account = getCurrentAccount();

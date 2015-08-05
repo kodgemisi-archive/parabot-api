@@ -23,7 +23,11 @@ import com.kodgemisi.parabot.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
 /**
  * Created by destan on 23.07.2015.
@@ -37,7 +41,7 @@ public class UserController extends GenericCrudController<User> {
     private UserService userService;
 
     @RequestMapping(value = "/{id}/accounts", method = RequestMethod.POST)
-    public void addAccount(@PathVariable("id") Long id, @RequestBody Account account){
+    public void addAccount(@PathVariable("id") Long id, @Valid @RequestBody Account account) {
         userService.addAccount(id, account);
     }
 

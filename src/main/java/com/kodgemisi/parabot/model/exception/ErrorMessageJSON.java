@@ -1,10 +1,5 @@
 package com.kodgemisi.parabot.model.exception;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-
 /**
  * Created by sedat on 24.07.2015.
  */
